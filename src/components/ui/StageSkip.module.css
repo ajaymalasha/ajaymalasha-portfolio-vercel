@@ -1,0 +1,10 @@
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  bottom: calc(var(--space-m) - 0.625rem);
+  z-index: 2;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: var(--text-ui);
+  pointer-events: auto;
+}

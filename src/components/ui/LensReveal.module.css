@@ -1,0 +1,38 @@
+.lens {
+  position: relative;
+}
+
+/* The second copy: the page's colours inverted, cut to a circle around the cursor. */
+.layer {
+  position: absolute;
+  inset: -160px;
+  padding: 160px;
+  background: var(--fg);
+  color: var(--canvas);
+  clip-path: circle(0px at 0px 0px);
+  will-change: clip-path;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* With the particle cloud running, the dots pack into the circle and are its fill: the layer
+   goes see-through, and the copy underneath is cut away inside the circle so only the second
+   copy reads against the dots. */
+@media (hover: hover) {
+  :global(html.has-particles) .layer {
+    background: transparent;
+  }
+
+  :global(html.has-particles) .base {
+    -webkit-mask-image: radial-gradient(
+      circle at var(--lens-x, 0) var(--lens-y, 0),
+      transparent var(--lens-r, 0px),
+      #000 calc(var(--lens-r, 0px) + 1px)
+    );
+    mask-image: radial-gradient(
+      circle at var(--lens-x, 0) var(--lens-y, 0),
+      transparent var(--lens-r, 0px),
+      #000 calc(var(--lens-r, 0px) + 1px)
+    );
+  }
+}

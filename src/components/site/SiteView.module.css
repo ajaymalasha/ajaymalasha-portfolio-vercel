@@ -1,0 +1,18 @@
+.site {
+  position: relative;
+}
+
+/* Sections have no background of their own: the page colour shows through, and the particle
+   canvas sits between the two. */
+.site :global(main) {
+  position: relative;
+}
+
+/* Copy that sits over the dots keeps a soft halo of the page colour, so it stays readable. */
+.site :global([data-over-dots]) {
+  text-shadow:
+    0 0 2px var(--canvas),
+    0 0 6px var(--canvas),
+    0 0 12px var(--canvas),
+    0 0 18px var(--canvas);
+}

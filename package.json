@@ -1,0 +1,44 @@
+{
+  "name": "ajay-malasha-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal portfolio of Ajay Malasha, founding software engineer for AI commerce and Shopify Plus. One swarm of particles draws the work.",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "dev": "next dev --port 3200",
+    "build": "next build",
+    "start": "next start --port 3200",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "assets:portrait": "node scripts/make-portrait.mjs",
+    "assets:work": "node scripts/make-work-images.mjs",
+    "assets:snippets": "node scripts/make-snippets.mjs",
+    "predev": "node scripts/make-snippets.mjs",
+    "prebuild": "node scripts/make-snippets.mjs"
+  },
+  "dependencies": {
+    "lenis": "1.3.27",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.182.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "^5",
+    "@fontsource-variable/geist-mono": "^5",
+    "@playwright/test": "1.65.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "0.182.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "prettier": "^3",
+    "sharp": "^0.35.5",
+    "typescript": "^5"
+  }
+}
