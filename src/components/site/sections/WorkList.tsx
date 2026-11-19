@@ -8,9 +8,6 @@ import { chapters, work } from "@/content/sections";
 import { useTicker } from "@/lib/ticker";
 import styles from "./WorkList.module.css";
 
-/** Every storefront listed is on the same platform; the content file has no field for it. */
-const PLATFORM = "Shopify";
-
 const pad = (n: number) => String(n).padStart(2, "0");
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
@@ -99,7 +96,7 @@ export function WorkList() {
               </span>
               <span className={`${styles.rowInfo} font-regular`}>
                 <span className={styles.rowMeta}>
-                  {project.sector} · {PLATFORM}
+                  {project.sector} · {work.platform}
                 </span>
                 <span className={styles.rowCredit}>
                   <span className={styles.rowDot} />

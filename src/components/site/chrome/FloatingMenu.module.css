@@ -417,12 +417,15 @@
     animation: none;
   }
 
-  /* No sweep and no rising rows: the menu simply fades. */
-  .menu[data-phase="enter"] :is(.bg, .linkInner, .visual, .top, .bottom) {
+  /* No sweep and no rising rows: the menu simply fades. A fade is not movement, so it is let
+     play even though the page is held still (globals.css cuts every other animation short). */
+  .menu[data-phase="enter"] :is(.bg, .linkInner, .visual, .top, .bottom, .marquee) {
     animation: fade-in 0.3s ease both;
+    animation-duration: 0.3s !important;
   }
 
-  .menu[data-phase="leave"] :is(.bg, .linkInner, .visual, .top, .bottom) {
+  .menu[data-phase="leave"] :is(.bg, .linkInner, .visual, .top, .bottom, .marquee) {
     animation: fade-out 0.3s ease both;
+    animation-duration: 0.3s !important;
   }
 }

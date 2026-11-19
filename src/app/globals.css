@@ -217,6 +217,7 @@ pre {
   --tracking-label: 0.12em;
 
   /* Layers, bottom to top. */
+  --z-hero-name: -3;
   --z-hero-photo: -2;
   --z-particles: -1;
   --z-chapter-label: 100;
@@ -358,11 +359,15 @@ body {
   text-wrap: pretty;
 }
 
-/* Everything that moves by itself stops when the page is held still (see lib/device). */
+/* Nothing moves by itself while the page is held still (see lib/device): an animation jumps
+   straight to its last frame instead of playing. Pausing would be simpler, but an entrance
+   paused on its first frame is an element that never appears. */
 html.is-still *,
 html.is-still *::before,
 html.is-still *::after {
-  animation-play-state: paused !important;
+  animation-duration: 0.01ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
 }
 
 /* ── Shared classes ──────────────────────────────────────────────────────────────────────── */

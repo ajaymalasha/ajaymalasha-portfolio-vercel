@@ -183,6 +183,8 @@ export const work = {
     "Theme rebuilds, custom features, checkout extensibility and speed work, mostly with the teams at EcomExperts and Marmeto.",
   visit: "Visit site",
   with: "With {studio}",
+  /** What every storefront listed here runs on: both teams build on Shopify and Shopify Plus. */
+  platform: "Shopify",
   projects: [
     {
       slug: "jones-road-beauty",
@@ -490,8 +492,9 @@ export const contact = {
   send: "Open in email",
   whatsapp: "Open in WhatsApp",
   email: "Email",
-  /** Shown once a draft has been handed to the visitor's own app. */
+  /** Shown once a draft has been handed to the visitor's own app: one line for each way out. */
   sent: "Opened in your email app. If nothing happened, write to {email}.",
+  sentWhatsapp: "Opened in WhatsApp. If nothing happened, write to {email}.",
   /** The message that gets composed: "{needs}" and "{message}" are filled in. */
   draftSubject: "Project enquiry",
   draftIntro: "Hi Ajay,",

@@ -42,6 +42,8 @@ type Dot = DotSeed & {
 const VERSIONS: Version[] = ["site", "story"];
 /** The count never finishes faster than this, however quickly everything loads. */
 const MIN_LOADING_MS = 1600;
+/** ...and never waits longer than this for something that has stalled. */
+const MAX_LOADING_MS = 8000;
 const LEAVE_MS = 1000;
 const LEAVE_CALM_MS = 300;
 const POINTER_REACH = 90;
@@ -163,9 +165,11 @@ export function EntryGate({ active, load, onChoose, onDone }: Props) {
       time += 1 / 60;
 
       if (!state.ready) {
-        const elapsed = Math.min(1, (performance.now() - startedAt) / MIN_LOADING_MS);
+        const waited = performance.now() - startedAt;
+        const elapsed = Math.min(1, waited / MIN_LOADING_MS);
         progress = Math.min(elapsed, (settled + elapsed) / (tasks.length + 1));
-        if (settled === tasks.length && elapsed >= 1) {
+        // A font or a photo that never arrives must not keep anyone here: after a while, go on without it.
+        if ((settled === tasks.length || waited > MAX_LOADING_MS) && elapsed >= 1) {
           progress = 1;
           becomeReady();
         }

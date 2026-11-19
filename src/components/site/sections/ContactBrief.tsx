@@ -50,14 +50,14 @@ export function ContactBrief() {
   const toggle = (need: Need) =>
     setPicked((current) => (current.includes(need) ? current.filter((entry) => entry !== need) : [...current, need]));
 
-  /** Shows the message as sent and clears the builder, ready for another. */
-  const record = () => {
+  /** Shows the message as sent, says where it went, and clears the builder, ready for another. */
+  const record = (reply: string) => {
     const id = nextId.current;
     nextId.current += 2;
     setMessages((current) => [
       ...current,
       { id, from: "visitor", text: draft },
-      { id: id + 1, from: "site", text: contact.sent.replace("{email}", site.email) },
+      { id: id + 1, from: "site", text: reply.replace("{email}", site.email) },
     ]);
     setPicked([]);
     setNote("");
@@ -67,7 +67,7 @@ export function ContactBrief() {
     if (!ready) return;
     // Email clients expect CRLF line endings in a mailto body.
     const body = encodeURIComponent(draft.replace(/\n/g, "\r\n"));
-    record();
+    record(contact.sent);
     window.open(`${mailto}?subject=${encodeURIComponent(contact.draftSubject)}&body=${body}`, "_self");
   };
 
@@ -76,7 +76,7 @@ export function ContactBrief() {
     // before the browser would follow it.
     event.preventDefault();
     window.open(whatsappHref, "_blank", "noopener,noreferrer");
-    record();
+    record(contact.sentWhatsapp);
   };
 
   const onSubmit = (event: FormEvent) => {

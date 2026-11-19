@@ -9,9 +9,6 @@ import { useStore } from "@/lib/store";
 import { useTicker } from "@/lib/ticker";
 import styles from "./WorkStage.module.css";
 
-/** Every storefront listed is on the same platform; the content file has no field for it. */
-const PLATFORM = "Shopify";
-
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
@@ -103,7 +100,7 @@ export function WorkStage() {
                   aria-hidden={active !== i}
                 >
                   <p className={styles.meta}>
-                    {project.sector} · {PLATFORM} · {work.with.replace("{studio}", project.team.studio)}
+                    {project.sector} · {work.platform} · {work.with.replace("{studio}", project.team.studio)}
                   </p>
                   <p className={styles.brief}>{project.brief}</p>
                 </div>

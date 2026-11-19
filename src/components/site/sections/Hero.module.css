@@ -268,7 +268,7 @@
    particle canvas with it. */
 @media (min-width: 1024px), (min-width: 724px) and (orientation: landscape) {
   :global(html.has-particles) .marqueeBand {
-    z-index: -3;
+    z-index: var(--z-hero-name);
   }
 }
 
