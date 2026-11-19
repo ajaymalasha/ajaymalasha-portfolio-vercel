@@ -1,0 +1,66 @@
+.rail {
+  position: fixed;
+  right: calc(var(--gutter) / 2);
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3xs);
+  transform: translateY(-50%);
+}
+
+.tick {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 22px;
+}
+
+.mark {
+  width: 12px;
+  height: 1px;
+  background: var(--on-ink-faint);
+  transition:
+    width 0.4s var(--ease-out),
+    background 0.3s ease;
+}
+
+/* The chapter's name slides out beside its tick. */
+.name {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--sand);
+  opacity: 0;
+  transform: translate(8px, -50%);
+  transition:
+    opacity 0.25s ease,
+    transform 0.4s var(--ease-out);
+  pointer-events: none;
+}
+
+.tick:hover .name,
+.tick:focus-visible .name {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.past .mark {
+  background: var(--on-ink-muted);
+}
+
+.tick:hover .mark {
+  width: 20px;
+}
+
+.current .mark {
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+}

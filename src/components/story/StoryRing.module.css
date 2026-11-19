@@ -1,0 +1,86 @@
+/* The story's cursor: a ring that follows the pointer and changes with what is under it. */
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-ring-cursor);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* --rw, --rh and --rr are set while the ring is wrapped around a link or button. */
+.ring::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--rw, 44px) / -2);
+  top: calc(var(--rh, 44px) / -2);
+  width: var(--rw, 44px);
+  height: var(--rh, 44px);
+  border: 1px solid var(--on-ink-faint);
+  border-radius: var(--rr, 999px);
+  transition:
+    transform 0.5s var(--ease-spring),
+    border-color 0.3s ease,
+    background 0.3s ease,
+    width 0.45s var(--ease-out),
+    height 0.45s var(--ease-out),
+    left 0.45s var(--ease-out),
+    top 0.45s var(--ease-out),
+    border-radius 0.45s var(--ease-out);
+}
+
+.ring[data-mode="snap-pill"]::before {
+  border-color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.ring[data-mode="snap-text"]::before {
+  border-color: var(--on-ink-border);
+  border-style: dashed;
+}
+
+.ring[data-mode="snap-tick"]::before {
+  border-color: var(--accent-text);
+}
+
+.ring[data-mode="reveal"]::before {
+  transform: scale(1.25);
+  border-color: var(--on-ink-soft);
+}
+
+.ring[data-mode="hot"]::before {
+  transform: scale(1.6);
+  border-color: var(--accent-text);
+}
+
+.ring[data-mode="open"]::before {
+  transform: scale(2.1);
+  border-color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.ring[data-mode="drag"]::before {
+  transform: scale(0.7);
+  border-color: var(--sand);
+}
+
+.text {
+  position: absolute;
+  left: 30px;
+  top: -8px;
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: var(--step--1);
+  line-height: 16px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--on-ink-muted);
+}
+
+.ring[data-mode="open"] .text {
+  left: 52px;
+  color: var(--sand);
+}

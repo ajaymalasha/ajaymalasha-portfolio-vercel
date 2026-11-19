@@ -1,0 +1,278 @@
+.gate {
+  /* Always dark, whatever theme the page behind it is in. */
+  --fg: var(--sand);
+  --fg-muted: var(--on-ink-muted);
+  --canvas: var(--ink);
+  --line: var(--on-ink-border);
+  --t-link-rest: var(--on-ink-muted);
+  --t-link-hover: var(--sand);
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-gate);
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--sand);
+  transition: opacity 0.9s ease 0.15s;
+}
+
+.gate[data-leaving] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l);
+  padding: 0 var(--gutter);
+  text-align: center;
+  transition:
+    opacity 0.4s ease,
+    transform 0.7s var(--ease-out);
+}
+
+.gate[data-leaving] .content {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.kicker,
+.loading {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--on-ink-muted);
+}
+
+.title {
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+/* The count and the choices share one cell, so the screen does not jump when one replaces the other. */
+.stage {
+  display: grid;
+  width: min(760px, 100%);
+}
+
+.loading,
+.ready {
+  grid-area: 1 / 1;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  gap: var(--space-2xs);
+  transition: opacity 0.3s ease;
+}
+
+.gate[data-ready] .loading {
+  opacity: 0;
+}
+
+.count {
+  font-size: var(--step-6);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--sand);
+  font-variant-numeric: tabular-nums;
+}
+
+.ready {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l);
+  visibility: hidden;
+}
+
+.gate[data-ready] .ready {
+  visibility: visible;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-s);
+  width: 100%;
+}
+
+.gate[data-ready] .choices {
+  animation: rise 0.9s var(--ease-out) 0.12s both;
+}
+
+.gate[data-ready] .sound {
+  animation: rise 0.9s var(--ease-out) 0.24s both;
+}
+
+@keyframes rise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.choice {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: var(--space-s);
+  row-gap: var(--space-2xs);
+  align-items: baseline;
+  padding: var(--space-m) var(--space-l);
+  border: 1px solid var(--on-ink-border);
+  border-radius: var(--radius-m);
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--sand);
+  text-align: left;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    transform 0.5s var(--ease-spring);
+}
+
+.choice[data-hovered] {
+  border-color: var(--accent-text);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  transform: translateY(-4px);
+}
+
+.choiceIndex {
+  grid-row: 1 / 3;
+  font-size: var(--step--1);
+  color: var(--accent-light);
+}
+
+.choiceTitle {
+  font-size: var(--step-2);
+  letter-spacing: var(--tracking-title);
+}
+
+.choiceDesc {
+  grid-column: 2;
+  font-size: var(--text-ui);
+  color: var(--on-ink-soft);
+}
+
+.choiceArrow {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.5rem;
+  width: 22px;
+  height: 22px;
+  opacity: 0.5;
+  transition:
+    transform 0.5s var(--ease-out),
+    opacity 0.3s ease;
+}
+
+.choice[data-hovered] .choiceArrow {
+  opacity: 1;
+  transform: translate(4px);
+}
+
+.sound {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2xs);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-s);
+  border: 1px solid var(--on-ink-border);
+  border-radius: 100px;
+  font-size: var(--step--1);
+  color: var(--on-ink-soft);
+}
+
+.hint {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  left: 50%;
+  width: max-content;
+  max-width: min(22rem, 90vw);
+  transform: translate(-50%);
+  font-size: var(--step--1);
+  line-height: var(--leading-small);
+  text-align: center;
+  text-wrap: balance;
+  color: var(--on-ink-muted);
+  opacity: 0;
+  translate: 0 -4px;
+  transition:
+    opacity 0.3s ease,
+    translate 0.4s var(--ease-out);
+}
+
+.hint[data-shown] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.foot {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-ui);
+  color: var(--on-ink-muted);
+  transition: opacity 0.4s ease;
+}
+
+.gate[data-leaving] .foot {
+  opacity: 0;
+}
+
+@media (max-width: 647px) {
+  .choices {
+    grid-template-columns: 1fr;
+  }
+
+  /* Stacked, the cards cover the ring: keep the dots from showing through the text. */
+  .choice {
+    background: color-mix(in srgb, var(--ink) 92%, transparent);
+  }
+}
+
+@media (max-height: 560px) {
+  .foot {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate[data-ready] .choices,
+  .gate[data-ready] .sound {
+    animation: none;
+  }
+}

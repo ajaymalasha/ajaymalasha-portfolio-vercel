@@ -39,7 +39,7 @@ export const chapters: Chapter[] = [
     id: "globe",
     kicker: "Jaipur, India",
     title: "It starts in Jaipur.",
-    body: "A degree in mechanical engineering, and a habit of taking things apart to see how they fit.",
+    body: "A degree in mechanical engineering, with training at the Nuclear Power Corporation of India and the Bhabha Atomic Research Centre.",
     hint: { hover: "Hover Jaipur", tap: "Tap Jaipur" },
   },
   {
@@ -52,7 +52,7 @@ export const chapters: Chapter[] = [
     id: "storefront",
     kicker: "2021 to 2026 · The craft",
     title: "Then came storefronts.",
-    body: "Shopify and Shopify Plus stores for 45+ brands, taken from Figma to production, pixel for pixel.",
+    body: "A year of front-end work, then Shopify and Shopify Plus stores for 45+ brands, taken from Figma to production, pixel for pixel.",
   },
   {
     id: "systems",
@@ -65,7 +65,7 @@ export const chapters: Chapter[] = [
     id: "years",
     kicker: `${site.since} to today`,
     title: "Five roles. Three countries.",
-    body: "From Jaipur, for teams in Bengaluru, Montreal and San Francisco, where I am a founding engineer today.",
+    body: "Ahmedabad, Jaipur and Bengaluru, then remote for teams in Montreal and San Francisco.",
     hint: { hover: "Hover a role as it passes", tap: "Tap a role as it passes" },
   },
   {

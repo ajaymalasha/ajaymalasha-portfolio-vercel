@@ -1,0 +1,17 @@
+.track {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.track svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.track:hover svg {
+  transform: rotate(180deg);
+}

@@ -1,0 +1,198 @@
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: var(--z-dock);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--canvas) 80%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transform: translate(-50%);
+  transition:
+    transform 0.5s var(--ease-out),
+    opacity 0.3s ease;
+  animation: dock-in 0.7s var(--ease-out) 0.6s backwards;
+}
+
+/* The story is always dark, whatever theme the site was left in. */
+.dock[data-story] {
+  --canvas: var(--ink);
+  --fg: var(--sand);
+  --fg-muted: var(--on-ink-muted);
+  --line: var(--on-ink-line);
+}
+
+.dock[data-tucked] {
+  opacity: 0;
+  transform: translate(-50%, 140%);
+  pointer-events: none;
+}
+
+/* Never hide from someone who has tabbed into it. */
+.dock[data-tucked]:has(:focus-visible) {
+  opacity: 1;
+  transform: translate(-50%);
+  pointer-events: auto;
+}
+
+@keyframes dock-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+}
+
+.goo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  fill: var(--fg);
+  opacity: 0.14;
+}
+
+/* With the blob doing the hovering, the controls' own hover backgrounds stand down. */
+.dock[data-goo] :is(.option, .track, :global(.btn-icon)):not([data-active]):hover:not(:focus-visible) {
+  background: transparent;
+}
+
+.sound,
+.source {
+  width: 34px;
+  height: 34px;
+  color: var(--fg);
+}
+
+.source {
+  position: relative;
+  font: 0.75rem / 1 var(--font-mono);
+}
+
+.source[aria-checked="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.tip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--fg);
+  color: var(--canvas);
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.5s var(--ease-out);
+}
+
+.tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 5px solid transparent;
+  border-top-color: var(--fg);
+  transform: translate(-50%);
+}
+
+.source:hover .tip,
+.source:focus-visible .tip {
+  opacity: 1;
+  transform: translate(-50%);
+}
+
+@media (min-width: 648px) {
+  .source[data-hinting] .tip {
+    opacity: 1;
+    transform: translate(-50%);
+  }
+}
+
+.track {
+  height: 34px;
+  padding: 0 var(--space-xs) 0 var(--space-2xs);
+  border-radius: 100px;
+  font-size: var(--text-ui);
+  color: var(--fg-muted);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.track:hover {
+  color: var(--fg);
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+}
+
+.versions {
+  display: flex;
+  gap: 2px;
+}
+
+.option {
+  padding: var(--space-2xs) var(--space-s);
+  border-radius: 100px;
+  font-size: var(--text-ui);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.option:hover {
+  color: var(--fg);
+}
+
+.option:hover:not([data-active]) {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.option[data-active] {
+  background: var(--fg);
+  color: var(--canvas);
+}
+
+@media (max-width: 647px) {
+  .dock {
+    bottom: 1.1rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .divider {
+    display: none;
+  }
+
+  .option {
+    padding-inline: var(--space-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock {
+    animation: none;
+  }
+}
