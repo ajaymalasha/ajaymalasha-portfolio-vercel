@@ -1,0 +1,253 @@
+.section {
+  padding: var(--section-y) var(--gutter);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: var(--index-col) 1fr;
+  gap: 0;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────────────────────────────────── */
+
+.thumbs {
+  --thumb: 64px;
+  --gap: var(--space-m);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding-left: var(--space-s);
+}
+
+/* The accent dot that slides to sit beside the selected tab. */
+.pointer {
+  position: absolute;
+  left: 0;
+  top: calc(var(--thumb) / 2 - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(calc(var(--index) * (var(--thumb) + var(--gap))));
+  transition: transform 0.6s var(--ease-spring);
+}
+
+button.thumb {
+  flex: none;
+  width: var(--thumb);
+  height: var(--thumb);
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg-muted);
+  font-size: var(--step-0);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.4s var(--ease-spring);
+}
+
+button.thumb[aria-selected="true"] {
+  --fill-bg: var(--accent);
+  --fill-fg: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent-text);
+  color: var(--on-accent);
+  transform: scale(1.08);
+}
+
+/* ── Panel ───────────────────────────────────────────────────────────────────────────────── */
+
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 28rem;
+}
+
+.panel {
+  position: relative;
+  flex: 1;
+}
+
+.panel[data-leaving="true"] {
+  opacity: 0;
+  transform: translateY(-12px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.pull {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  column-gap: 0.24em;
+  min-height: 3em;
+  margin-bottom: var(--space-l);
+  font-size: min(var(--step-6), 11vh);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--fg);
+}
+
+.pullWord {
+  display: inline-block;
+  animation: word-in 0.8s var(--ease-out) both;
+  animation-delay: calc(var(--w) * 60ms);
+}
+
+.text {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+  font-size: var(--step-1);
+  line-height: var(--leading-body);
+}
+
+.word {
+  display: inline-block;
+  animation: word-in 0.7s var(--ease-out) both;
+  animation-delay: calc(0.4s + var(--w) * 8ms);
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin-top: var(--space-l);
+}
+
+.captionTitle {
+  font-size: var(--step-0);
+}
+
+.captionNote {
+  font-size: var(--text-ui);
+  color: var(--fg-muted);
+}
+
+/* ── The line that fills until the next principle is due ─────────────────────────────────── */
+
+.progress {
+  max-width: 48rem;
+  height: 1px;
+  margin-top: var(--space-xl);
+  overflow: hidden;
+  background: var(--line);
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  animation: fill-line 9s linear forwards;
+}
+
+.bar[data-paused="true"] {
+  animation-play-state: paused;
+}
+
+@keyframes fill-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0 var(--grid-gap);
+  }
+
+  .thumbs {
+    grid-column: 1 / 2;
+  }
+
+  .body {
+    grid-column: 2 / 10;
+  }
+
+  .slot {
+    grid-column: 10 / 13;
+    align-self: start;
+    aspect-ratio: 1;
+  }
+}
+
+/* On small laptops the first column is narrower than a full-size tab. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .thumbs {
+    --thumb: 44px;
+    padding-left: var(--space-xs);
+  }
+
+  button.thumb {
+    font-size: var(--text-ui);
+  }
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  .thumbs {
+    --thumb: 52px;
+    flex-direction: row;
+    padding-left: 0;
+  }
+
+  .pointer {
+    display: none;
+  }
+
+  .body {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 647px) {
+  .pull {
+    min-height: 0;
+  }
+}
+
+/* Nothing advances by itself for visitors who asked for less motion: the line never fills. */
+@media (prefers-reduced-motion: reduce) {
+  .pullWord,
+  .word {
+    animation: none;
+  }
+
+  .bar {
+    animation-play-state: paused;
+  }
+
+  .pointer,
+  .thumb {
+    transition: none;
+  }
+}

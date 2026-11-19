@@ -1,10 +1,14 @@
-import { chapters } from "@/content/sections";
+"use client";
 
-/** Placeholder: replaced by the real section. */
+import { stagesOn } from "@/lib/stage";
+import { useStore } from "@/lib/store";
+import { BuildingList } from "./BuildingList";
+import { BuildingStage } from "./BuildingStage";
+
+/**
+ * What is being shipped now. Laptops with a GPU get the three-column accordion the dots draw
+ * in; everything else (and the server) gets the list.
+ */
 export function Building() {
-  return (
-    <section id="building" data-theme="dark" data-chapter={chapters.building} style={{ minHeight: "100vh", padding: "var(--section-y) var(--gutter)" }}>
-      <p className="section-label">Building</p>
-    </section>
-  );
+  return useStore(stagesOn, false) ? <BuildingStage /> : <BuildingList />;
 }

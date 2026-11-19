@@ -1,0 +1,37 @@
+/* The cloud sits behind the page's content and in front of its background colour. */
+.cloud {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-particles);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* While the dot stage is drawing, it is the only swarm on screen. */
+:global(html.dots-active) .cloud {
+  opacity: 0;
+}
+
+/* The photograph behind the portrait's dots, cut to a soft circle around the cursor. */
+.reveal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-hero-photo);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  -webkit-mask-image: radial-gradient(
+    circle var(--r, 0px) at var(--mx, 50%) var(--my, 50%),
+    #000 45%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(circle var(--r, 0px) at var(--mx, 50%) var(--my, 50%), #000 45%, transparent 100%);
+}
+
+.reveal img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

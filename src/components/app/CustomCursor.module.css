@@ -1,0 +1,88 @@
+.root {
+  display: none;
+}
+
+:global(html.has-custom-cursor) .root {
+  display: contents;
+}
+
+.blend,
+.overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* The dot lives in its own blended layer, so it inverts the page and not the label above it. */
+.blend {
+  z-index: var(--z-cursor-blend);
+  mix-blend-mode: difference;
+}
+
+.overlay {
+  z-index: var(--z-cursor);
+}
+
+.dot {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--sand);
+  will-change: translate, scale;
+  transition:
+    width 0.45s var(--ease-spring),
+    height 0.45s var(--ease-spring),
+    top 0.45s var(--ease-spring),
+    left 0.45s var(--ease-spring),
+    background 0.25s ease,
+    scale 0.45s var(--ease-spring),
+    opacity 0.25s ease;
+}
+
+.dot[data-mode="stick"] {
+  top: calc(var(--stick) / -2);
+  left: calc(var(--stick) / -2);
+  width: var(--stick);
+  height: var(--stick);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--sand);
+  transition-duration: 0.55s, 0.55s, 0.55s, 0.55s, 0.25s, 0.45s, 0.25s;
+}
+
+.dot[data-mode="hidden"],
+.dot[data-mode="label"] {
+  scale: 0;
+  opacity: 0;
+}
+
+.label {
+  position: absolute;
+  top: -52px;
+  left: -52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  padding: 0 var(--space-s);
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--step--1);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-align: center;
+  scale: 0;
+  transition: scale 0.45s var(--ease-spring);
+}
+
+.label[data-visible] {
+  scale: 1;
+}
+
+.arrow {
+  margin-left: 0.3em;
+}

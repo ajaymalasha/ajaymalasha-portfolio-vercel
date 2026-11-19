@@ -6,6 +6,7 @@ import { STORY_ENABLED } from "@/content/site";
 import { watchMotionPreference } from "@/lib/device";
 import { markLoaded, presetVersion, setVersion, version, type Version } from "@/lib/experience";
 import { initMotion } from "@/lib/motion";
+import { loadPortrait } from "@/lib/particle-kit";
 import { resetScroll, startScroll, stopScroll } from "@/lib/scroll";
 import { useStore } from "@/lib/store";
 import { CustomCursor } from "./CustomCursor";
@@ -17,19 +18,16 @@ const StoryView = dynamic(() => import("@/components/story/StoryView").then((m) 
 
 /** Loaded while the entry screen counts up, so whichever way in is chosen is ready. */
 function preload(): Promise<unknown>[] {
-  const idle = (run: () => void) =>
-    "requestIdleCallback" in window ? requestIdleCallback(run) : setTimeout(run, 1);
+  const idle = (run: () => void) => ("requestIdleCallback" in window ? requestIdleCallback(run) : setTimeout(run, 1));
   idle(() => {
     void import("@/components/fx/ParticleMorph");
     if (STORY_ENABLED) void import("@/components/story/StoryView");
   });
-  const portrait = new Image();
-  portrait.src = "/portrait/cutout.webp";
+  // next/font gives the family a generated name: read it from the variable it is published under.
+  const family = getComputedStyle(document.documentElement).getPropertyValue("--font-geist").trim() || "sans-serif";
   return [
-    document.fonts.load("300 16px Geist"),
-    document.fonts.load("400 16px Geist"),
-    document.fonts.load("700 16px Geist"),
-    portrait.decode().catch(() => {}),
+    ...[300, 400, 600, 700].map((weight) => document.fonts.load(`${weight} 16px ${family}`)),
+    loadPortrait().catch(() => {}),
   ];
 }
 
@@ -83,7 +81,10 @@ export function App({ site }: { site: ReactNode }) {
       {current !== "story" ? site : null}
       {current === "story" ? <StoryView /> : null}
 
-      {STORY_ENABLED ? <EntryGate active={gate} load={preload} onChoose={choose} onDone={() => setGate(false)} /> : null}
+      {/* Rendered until a version is on screen (its first frame is part of the server's HTML), then gone. */}
+      {STORY_ENABLED && (gate || !current) ? (
+        <EntryGate active={gate} load={preload} onChoose={choose} onDone={() => setGate(false)} />
+      ) : null}
       {current ? <ExperienceDock /> : null}
       <VersionTransition />
       <CustomCursor />

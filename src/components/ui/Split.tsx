@@ -68,7 +68,12 @@ export function Split({ parts, lines = true, as: Tag = "h2", className, delay, o
       style={delay ? ({ "--split-delay": `${delay}ms` } as CSSProperties) : undefined}
     >
       {pieces.map((piece, i) => {
-        if (typeof piece === "string") return <span key={i} aria-hidden="true">{words(piece, `p${i}`)}</span>;
+        if (typeof piece === "string")
+          return (
+            <span key={i} aria-hidden="true">
+              {words(piece, `p${i}`)}
+            </span>
+          );
         if ("br" in piece) return <br key={i} />;
         return (
           <span className="accent" key={i} aria-hidden="true">

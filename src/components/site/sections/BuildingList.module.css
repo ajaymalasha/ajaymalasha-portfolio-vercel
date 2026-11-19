@@ -1,0 +1,206 @@
+.building {
+  padding: var(--section-y) var(--gutter);
+}
+
+.heading {
+  font-size: var(--step-6);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.heading :global(.accent) {
+  color: inherit;
+}
+
+.visit {
+  margin-top: var(--space-l);
+  font-size: var(--text-ui);
+}
+
+@media (min-width: 1024px) {
+  .lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 18vw);
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .lead [data-slot="form"] {
+    height: 10rem;
+  }
+}
+
+/* ── Rows ────────────────────────────────────────────────────────────────────────────────── */
+
+.index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-m);
+  margin-top: var(--space-3xl);
+}
+
+.item {
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  height: 100%;
+  padding-top: var(--space-s);
+  color: var(--fg);
+  transition: opacity 0.4s ease;
+}
+
+.index[data-hover] .item:not([data-hovered]) .row {
+  opacity: 0.3;
+}
+
+.rowIndex {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  transition: color 0.3s ease;
+}
+
+.item[data-hovered] .rowIndex {
+  color: var(--accent-text);
+}
+
+.rowTitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.item[data-hovered] .rowTitle {
+  transform: translateX(1.25rem);
+}
+
+.rowName {
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.rowPitch {
+  max-width: 36rem;
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  color: var(--fg-muted);
+}
+
+/* The parts run on as one line of text, an accent dot between each. */
+.parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) 0;
+  margin-top: var(--space-3xs);
+  font-size: var(--step--1);
+  letter-spacing: 0.01em;
+}
+
+.part {
+  display: inline-flex;
+  align-items: center;
+}
+
+.part:not(:last-child)::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin: 0 var(--space-xs);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.rowInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: auto;
+  font-size: var(--text-ui);
+}
+
+.rowKind {
+  color: var(--fg-muted);
+}
+
+.rowStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* Everything here is in production, so every dot is the "live" one. */
+.rowDot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+  --pulse-color: var(--live);
+  --pulse-size: 10px;
+  animation: pulse-ring 2.2s ease-out infinite;
+}
+
+/* ── The lines under the list ────────────────────────────────────────────────────────────── */
+
+.notes {
+  display: grid;
+  gap: var(--space-xs);
+  max-width: 52rem;
+  margin-top: var(--space-xl);
+  font-size: var(--text-ui);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+.small {
+  font-size: var(--step--1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rowDot {
+    animation: none;
+  }
+
+  .rowTitle {
+    transition: none;
+  }
+}
+
+/* Three abreast, each name has a third of the page: sized so the longest stays on one line. */
+@media (min-width: 1024px) {
+  .rowName {
+    font-size: min(var(--step-5), 4vw);
+  }
+}
+
+@media (max-width: 1023px) {
+  .index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .row {
+    padding-bottom: var(--space-s);
+  }
+
+  .rowInfo {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-s);
+  }
+}
+
+@media (hover: none) {
+  .index[data-hover] .item:not([data-hovered]) .row {
+    opacity: 1;
+  }
+
+  .item[data-hovered] .rowTitle {
+    transform: none;
+  }
+}

@@ -1,0 +1,86 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu-button);
+  pointer-events: none;
+}
+
+/* The page's "console": one error after another, top left. */
+.errors {
+  position: absolute;
+  top: var(--space-m);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+
+.error {
+  padding: var(--space-2xs) var(--space-xs);
+  border-left: 3px solid #ff4d4f;
+  border-radius: var(--radius-s);
+  background: #1a0b0c;
+  color: #ff8d8f;
+  font: 0.75rem/1.4 var(--font-mono);
+  animation: error-in 0.3s var(--ease-out) backwards;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+
+.fix {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  padding: var(--space-s) var(--space-xl);
+  border-radius: 100px;
+  font-size: var(--step-1);
+  transform: translateX(-50%);
+  pointer-events: auto;
+  animation: fade-in 0.25s ease backwards;
+}
+
+.patch {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  width: min(30rem, 90vw);
+  padding: var(--space-s);
+  border: 1px solid var(--on-ink-line);
+  border-radius: var(--radius-m);
+  background: var(--ink);
+  color: var(--sand);
+  font: 0.8125rem/1.7 var(--font-mono);
+  transform: translateX(-50%);
+  animation: fade-in 0.25s ease backwards;
+}
+
+.file {
+  margin-bottom: var(--space-2xs);
+  color: var(--on-ink-muted);
+}
+
+.removed {
+  color: #ff8d8f;
+}
+
+.added {
+  color: #6fe39a;
+}
+
+.done {
+  margin-top: var(--space-xs);
+  color: var(--sand);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

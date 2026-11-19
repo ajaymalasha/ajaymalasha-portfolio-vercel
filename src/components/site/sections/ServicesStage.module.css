@@ -1,0 +1,123 @@
+/* Tall enough to give every item its share of scrolling, plus the one screen that is pinned. */
+.section {
+  position: relative;
+  height: calc(30vh * var(--count) + 100vh);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 5.5rem var(--gutter) 4.5rem;
+}
+
+.stage :global([data-section-header]) {
+  flex: none;
+  margin-bottom: var(--space-m);
+}
+
+.main {
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+}
+
+.copy {
+  grid-column: 1 / 6;
+}
+
+.intro {
+  max-width: 30em;
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  color: var(--fg-muted);
+}
+
+/* The item on show: rises in when it is swapped in, lifts away when it is about to be replaced. */
+.active {
+  margin-top: var(--space-xl);
+  animation:
+    fade-in 0.35s ease backwards,
+    rise-in 0.55s var(--ease-out) backwards;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.leaving {
+  animation: none;
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(24px);
+  }
+}
+
+.title {
+  font-size: var(--step-6);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.desc {
+  max-width: 34em;
+  margin-top: var(--space-m);
+  font-size: var(--step-1);
+  line-height: var(--leading-body);
+}
+
+/* Where the dot stage draws. As wide as its columns, unless the screen is too short for that. */
+.slot {
+  grid-column: 6 / 13;
+  justify-self: end;
+  width: min(100%, calc((100vh - 18rem) * 1.6));
+  aspect-ratio: 16 / 10;
+}
+
+/* ── The rail ────────────────────────────────────────────────────────────────────────────── */
+
+.rail {
+  margin-top: var(--space-m);
+}
+
+.rail li {
+  position: relative;
+  grid-column: span 2;
+  padding-top: var(--space-xs);
+  border-top: 2px solid var(--line);
+  transition: border-color 0.4s ease;
+}
+
+.rail li.isPast,
+.rail li.isActive {
+  border-color: var(--fg);
+}
+
+.step {
+  font-size: var(--text-ui);
+  color: var(--fg-muted);
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+.isActive .step,
+.step:hover {
+  color: var(--fg);
+}
+
+.num {
+  display: block;
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}

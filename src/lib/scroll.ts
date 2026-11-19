@@ -47,7 +47,10 @@ export function releaseScroll() {
 type ScrollTarget = number | string | HTMLElement;
 
 /** Scroll to a position, an element, or a "#hash". `immediate` jumps without the glide. */
-export function scrollToTarget(target: ScrollTarget, options: { duration?: number; immediate?: boolean; offset?: number } = {}) {
+export function scrollToTarget(
+  target: ScrollTarget,
+  options: { duration?: number; immediate?: boolean; offset?: number } = {},
+) {
   const resolved = target === "#top" ? 0 : target;
   getLenis().scrollTo(resolved, { duration: 1.6, force: true, ...options });
 }

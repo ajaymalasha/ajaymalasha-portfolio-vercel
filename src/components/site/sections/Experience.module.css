@@ -1,0 +1,303 @@
+/* Clipped sideways for the marquee. It has to be `clip`: `hidden` would make this a scroll
+   container and the year below would stop sticking. */
+.experience {
+  padding: var(--section-y) 0;
+  overflow-x: clip;
+}
+
+.head {
+  padding: 0 var(--gutter);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-3xl);
+  padding: 0 var(--gutter);
+}
+
+/* ── The statement ───────────────────────────────────────────────────────────────────────── */
+
+.statement {
+  font-size: var(--step-5);
+  line-height: var(--leading-statement);
+  letter-spacing: var(--tracking-statement);
+}
+
+.link {
+  margin-top: var(--space-xl);
+  font-size: var(--text-ui);
+}
+
+/* ── The years ───────────────────────────────────────────────────────────────────────────── */
+
+.journey {
+  margin-top: var(--space-3xl);
+  padding: 0 var(--gutter);
+}
+
+.pin {
+  display: none;
+}
+
+.history :global(.section-label) {
+  margin-bottom: var(--space-l);
+}
+
+.now {
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: 100px;
+  font-size: var(--step--1);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.timeline {
+  position: relative;
+}
+
+.line {
+  display: none;
+}
+
+.item {
+  padding: var(--space-m) 0;
+  border-top: 1px solid var(--line);
+}
+
+.itemYear {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-weight: var(--weight-bold);
+  font-size: var(--step-5);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+}
+
+.itemYear .now {
+  letter-spacing: var(--tracking-label);
+}
+
+.role {
+  margin-top: var(--space-xs);
+  font-size: var(--step-3);
+  line-height: var(--leading-title);
+  letter-spacing: var(--tracking-title);
+}
+
+.company {
+  margin-top: var(--space-2xs);
+  font-size: var(--text-ui);
+}
+
+.company span {
+  color: var(--fg-muted);
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    gap: 0 var(--grid-gap);
+    align-items: center;
+  }
+
+  .intro {
+    grid-column: 1 / 10;
+  }
+
+  .grid [data-slot="form"] {
+    grid-column: 10 / 13;
+    height: 15rem;
+  }
+
+  /* The year holds its place across the middle of the screen while the roles pass it. */
+  .pin {
+    --year: min(19.5vw, 42vh);
+    position: sticky;
+    top: calc(50vh - var(--year) * 0.62);
+    grid-column: 1 / 8;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-s);
+  }
+
+  .year {
+    display: flex;
+    height: 1em;
+    overflow: hidden;
+    font-size: var(--year);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Each digit is a strip of 0 to 9 that rolls to its number. */
+  .digit {
+    display: block;
+    width: 0.63em;
+    text-align: center;
+  }
+
+  .strip {
+    display: block;
+    transform: translateY(calc(var(--digit) * -1em));
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .strip span {
+    display: block;
+    height: 1em;
+  }
+
+  .into {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    font-size: var(--step-2);
+    color: var(--fg-muted);
+  }
+
+  .pin .now {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.5s var(--ease-out);
+  }
+
+  .pin .now[data-shown] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .history {
+    grid-column: 8 / 13;
+  }
+
+  /* A line in the gap beside the roles, filling as the years go by. */
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--grid-gap) / -2);
+    display: block;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .fill {
+    display: block;
+    height: 100%;
+    background: var(--fg);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 32vh;
+    padding: 0;
+    border-top: 0;
+    color: var(--fg-muted);
+    transition: color 0.4s ease;
+  }
+
+  .item[data-state="active"] {
+    color: var(--fg);
+  }
+
+  /* A dot on the line for each role. */
+  .item::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(var(--grid-gap) / -2 - 4px);
+    width: 9px;
+    height: 9px;
+    margin-top: -4.5px;
+    border: 1px solid var(--fg-muted);
+    border-radius: 50%;
+    background: var(--canvas);
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .item[data-state]::before {
+    background: var(--accent);
+    border-color: var(--accent-text);
+  }
+
+  .itemYear {
+    font-weight: var(--weight-regular);
+    font-size: var(--text-ui);
+    letter-spacing: 0.02em;
+    color: var(--fg-muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    transition: none;
+  }
+}
+
+/* ── The toolkit line ────────────────────────────────────────────────────────────────────── */
+
+.toolkit {
+  margin-top: var(--space-4xl);
+  padding: var(--space-m) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.set {
+  display: flex;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--step-2);
+  letter-spacing: var(--tracking-title);
+  white-space: nowrap;
+  color: var(--fg-muted);
+}
+
+.tool::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin: 0 var(--space-l);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+@media (max-width: 647px) {
+  .tool {
+    font-size: var(--step-1);
+  }
+}

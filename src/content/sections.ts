@@ -277,7 +277,8 @@ export const building = {
     {
       id: "landing",
       name: "Ad to page",
-      pitch: "Landing pages generated from any Meta ad, with ad-to-page lineage, guardrails against ungrounded price claims, and version history.",
+      pitch:
+        "Landing pages generated from any Meta ad, with ad-to-page lineage, guardrails against ungrounded price claims, and version history.",
       parts: ["Meta ad data", "Page archetypes", "Guardrails", "Evidence checks", "Version history"],
       kind: "AI landing pages",
       status: "Shipped",
@@ -295,7 +296,8 @@ export const building = {
     {
       id: "quiz",
       name: "Quiz funnels",
-      pitch: "An AI quiz builder: LLM-drafted questions, a deterministic recommendation scorer, and add-to-cart results on the storefront.",
+      pitch:
+        "An AI quiz builder: LLM-drafted questions, a deterministic recommendation scorer, and add-to-cart results on the storefront.",
       parts: ["LLM-drafted questions", "Deterministic scorer", "Storefront runtime", "Add to cart", "Response capture"],
       kind: "AI quiz funnels",
       status: "Shipped",

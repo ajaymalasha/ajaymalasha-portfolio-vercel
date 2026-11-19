@@ -1,0 +1,13 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-particles);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Some pictures sit on a filled surface (the open feature panel) and have to be drawn over it. */
+:global(html.dots-over) .stage {
+  z-index: 5;
+}

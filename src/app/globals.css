@@ -317,8 +317,10 @@ html.lenis {
   overflow: clip;
 }
 
+/* The page colour is painted by <html> alone: the particle canvas sits at z-index -1, above
+   that colour and below everything else, so <body> must not paint over it. */
 body {
-  background-color: var(--canvas);
+  background-color: transparent;
   color: var(--fg);
 }
 

@@ -1,0 +1,13 @@
+/* Laid over the list of figures; its height and offset are set by the script. */
+.canvas {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas {
+    display: none;
+  }
+}

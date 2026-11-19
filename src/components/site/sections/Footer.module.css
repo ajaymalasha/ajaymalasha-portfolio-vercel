@@ -1,0 +1,399 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: var(--section-y) var(--gutter) 0;
+  color: var(--sand);
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Availability ────────────────────────────────────────────────────────────────────────── */
+
+.availability {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2xs);
+  width: fit-content;
+  margin-bottom: var(--space-l);
+  padding: var(--space-2xs) var(--space-s) var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--on-ink-border);
+  border-radius: 100px;
+  font-size: var(--text-ui);
+  color: var(--on-ink-soft);
+}
+
+.availabilityDot {
+  --pulse-color: var(--live);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--live);
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* ── Heading ─────────────────────────────────────────────────────────────────────────────── */
+
+.headingRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.25em;
+  font-size: var(--step-7);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--sand);
+}
+
+.avatar {
+  width: 0.62em;
+  height: 0.62em;
+  margin-bottom: 0.06em;
+  vertical-align: middle;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sand) 18%, transparent);
+}
+
+/* ── The line: three stops and the call to action at its end ─────────────────────────────── */
+
+.dividerZone {
+  position: relative;
+  margin: var(--space-l) 0 var(--space-xl);
+}
+
+.dividerLine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 200px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--on-ink-line);
+}
+
+.journey {
+  position: absolute;
+  inset: 0 230px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stop {
+  position: relative;
+}
+
+.stopDot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--canvas);
+}
+
+.stopIndex {
+  position: absolute;
+  bottom: calc(50% + 1rem);
+  left: 0;
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+}
+
+.stopText {
+  position: absolute;
+  top: calc(50% + 1.1rem);
+  left: 0;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.stopTitle {
+  font-size: var(--step-0);
+  letter-spacing: -0.01em;
+  color: var(--sand);
+}
+
+.stopNote {
+  font-size: var(--step--1);
+  line-height: 1.45;
+  color: var(--on-ink-muted);
+}
+
+/* --mx/--my: the lean after the cursor (set here). --gx/--gy: the pull of the floating menu
+   button when its neck attaches to this disc (set by the menu). */
+a.cta {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  transform: translateY(-50%) translate(calc(var(--mx, 0px) + var(--gx, 0px)), calc(var(--my, 0px) + var(--gy, 0px)));
+  transition:
+    transform 0.5s var(--ease-spring),
+    color 0.4s ease;
+}
+
+.ctaLabel {
+  font-size: var(--text-ui);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.ctaArrow {
+  display: block !important;
+  width: 22px;
+  height: 22px;
+  margin: var(--space-2xs) auto 0;
+}
+
+/* ── Pills ───────────────────────────────────────────────────────────────────────────────── */
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-2xl);
+}
+
+a.pill {
+  --fill-bg: var(--sand);
+  --fill-fg: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-l);
+  border: 1px solid var(--on-ink-border);
+  border-radius: 100px;
+  font-size: var(--text-ui);
+  letter-spacing: 0.01em;
+  color: var(--on-ink-soft);
+}
+
+.copied {
+  align-self: center;
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s var(--ease-out);
+}
+
+.copied[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Footer bar ──────────────────────────────────────────────────────────────────────────── */
+
+.bar {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xl);
+  padding: var(--space-m) var(--space-3xl) var(--space-l) 0;
+  border-top: 1px solid var(--on-ink-line);
+}
+
+.colEnd {
+  margin-left: auto;
+  text-align: right;
+}
+
+.barLabel,
+.barValue {
+  white-space: nowrap;
+}
+
+.barLabel {
+  display: block;
+  margin-bottom: var(--space-2xs);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.barValue {
+  font-size: var(--step--1);
+  letter-spacing: 0.01em;
+  color: var(--on-ink-muted);
+}
+
+.barLink {
+  --t-link-rest: var(--on-ink-muted);
+  --t-link-hover: var(--sand);
+}
+
+.socials {
+  display: inline-flex;
+  justify-content: flex-end;
+  gap: var(--space-m);
+}
+
+.social {
+  font-size: var(--step--1);
+  letter-spacing: 0.01em;
+}
+
+/* ── The name across the bottom ──────────────────────────────────────────────────────────── */
+
+/* Height, font size and the track's top offset are fitted in JS; these are the values the
+   server-rendered page holds until then. */
+.nameZone {
+  position: relative;
+  height: 11vw;
+  margin: var(--space-m) calc(var(--gutter) * -1) 0;
+  overflow: hidden;
+}
+
+.nameTrack {
+  position: absolute;
+  left: 0;
+  display: flex;
+  font-size: 13vw;
+  line-height: 1;
+  white-space: pre;
+  opacity: var(--arrived, 0);
+  will-change: transform;
+}
+
+/* With no cloud to write the name, the dotted text is the name. */
+:global(html:not(.has-particles)) .nameTrack {
+  opacity: 1;
+}
+
+.nameCopy {
+  flex: none;
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    display: grid;
+    grid-template-columns: var(--index-col) minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  .journey {
+    inset: 0;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .stop {
+    grid-column: span 3;
+  }
+
+  .bar {
+    display: grid;
+    gap: var(--space-l) var(--grid-gap);
+    padding-right: 0;
+  }
+
+  .col {
+    grid-column: span 2;
+  }
+
+  .colEnd {
+    grid-column: 9 / 13;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .socials {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1100px) {
+  .bar {
+    flex-wrap: wrap;
+    row-gap: var(--space-l);
+  }
+}
+
+/* Too narrow for stops along a line: they stack beside a rule instead. */
+@media (max-width: 760px) {
+  .journey {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    margin-bottom: var(--space-l);
+    padding-left: var(--space-l);
+    border-left: 1px solid var(--on-ink-line);
+  }
+
+  .stop {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .stopDot {
+    top: 0.35rem;
+    left: calc(-1 * var(--space-l) - 5px);
+    margin-top: 0;
+  }
+
+  .stopIndex,
+  .stopText {
+    position: static;
+  }
+}
+
+@media (max-width: 647px) {
+  .heading {
+    font-size: var(--step-6);
+  }
+
+  .bar {
+    gap: var(--space-l);
+    padding-right: 0;
+    padding-bottom: var(--space-m);
+  }
+
+  .colEnd {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .socials {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: var(--space-xs) var(--space-m);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .availabilityDot {
+    animation: none;
+  }
+
+  .cta,
+  .copied {
+    transition: none;
+  }
+}

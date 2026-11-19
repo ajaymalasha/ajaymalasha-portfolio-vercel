@@ -1,0 +1,18 @@
+.hourglass {
+  position: fixed;
+  top: 0;
+  right: 4px;
+  bottom: 0;
+  z-index: var(--z-dock);
+  width: 16px;
+  height: 100vh;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 647px) {
+  .hourglass {
+    right: 2px;
+    width: 12px;
+  }
+}

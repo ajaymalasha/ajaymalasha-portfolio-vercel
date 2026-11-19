@@ -1,0 +1,67 @@
+.chapter {
+  position: fixed;
+  left: calc(var(--gutter) / 2);
+  bottom: 2.6rem;
+  z-index: var(--z-chapter-label);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  /* Written bottom to top: vertical text, turned half a turn. */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  translate: -50% 0;
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.chapter[data-visible] {
+  opacity: 1;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.text {
+  display: inline-block;
+  animation: swap-in 0.45s var(--ease-out) backwards;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.text[data-leaving] {
+  opacity: 0;
+  transform: translateY(40%);
+}
+
+@keyframes swap-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+}
+
+@media (max-width: 1023px) {
+  .chapter {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text {
+    animation: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .text[data-leaving] {
+    transform: none;
+  }
+}

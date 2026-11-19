@@ -1,0 +1,65 @@
+/* Sand dots on an ink disc whatever the theme of the section, like the hero portrait. */
+.avatar {
+  --tx: 0px;
+  --ty: 0px;
+  --ox: 50%;
+  --oy: 50%;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--sand);
+  transform: translate(var(--tx), var(--ty));
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.avatar[data-open="true"] {
+  z-index: 2;
+  transform: translate(var(--tx), var(--ty)) scale(1.18);
+  transition-duration: 0.35s;
+}
+
+.real,
+.dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The photo opens as a circle growing from where the pointer came in. */
+.real {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  clip-path: circle(0% at var(--ox) var(--oy));
+  transition: clip-path 0.45s var(--ease-out);
+}
+
+.avatar[data-open="true"] .real {
+  clip-path: circle(150% at var(--ox) var(--oy));
+  transition-duration: 0.8s;
+}
+
+.dots {
+  transition:
+    opacity 0.6s ease,
+    transform 0.8s var(--ease-out);
+}
+
+.avatar[data-open="true"] .dots {
+  opacity: 0;
+  transform: scale(1.6);
+  transition-duration: 0.45s, 0.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar,
+  .avatar[data-open="true"],
+  .avatar[data-open="true"] .dots {
+    transform: none;
+  }
+}

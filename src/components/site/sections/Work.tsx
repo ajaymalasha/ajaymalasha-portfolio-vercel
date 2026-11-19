@@ -1,10 +1,14 @@
-import { chapters } from "@/content/sections";
+"use client";
 
-/** Placeholder: replaced by the real section. */
+import { stagesOn } from "@/lib/stage";
+import { useStore } from "@/lib/store";
+import { WorkList } from "./WorkList";
+import { WorkStage } from "./WorkStage";
+
+/**
+ * Selected work. Laptops with a GPU get the pinned stage, where the dots draw each storefront;
+ * everything else (and the server) gets the list.
+ */
 export function Work() {
-  return (
-    <section id="work" data-theme="dark" data-chapter={chapters.work} style={{ minHeight: "100vh", padding: "var(--section-y) var(--gutter)" }}>
-      <p className="section-label">Work</p>
-    </section>
-  );
+  return useStore(stagesOn, false) ? <WorkStage /> : <WorkList />;
 }

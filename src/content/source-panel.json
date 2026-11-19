@@ -1,4 +1,121 @@
 {
-  "sections": [],
-  "stages": {}
+  "labels": {
+    "panel": "The code behind this section",
+    "live": "Measured in your browser, right now",
+    "close": "Hide the code",
+    "elements": "elements",
+    "loading": "Loading the source…",
+    "stats": {
+      "lcp": "Largest paint",
+      "shift": "Layout shift",
+      "weight": "Page weight",
+      "fps": "Frames / s",
+      "dots": "Dots",
+      "nodes": "Elements"
+    }
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "el": "#top",
+      "file": "src/components/fx/ParticleMorph.tsx",
+      "from": "function between(middle: number, vh: number)",
+      "note": "Scroll position alone decides which two shapes the dots are between, so every morph reverses as you scroll back."
+    },
+    {
+      "id": "about",
+      "el": "#about",
+      "file": "src/lib/lens.ts",
+      "from": "export const lens = {",
+      "rest": true,
+      "note": "Where the open lens is on screen, shared so the dots can pack themselves into its circle."
+    },
+    {
+      "id": "services",
+      "el": "#services",
+      "file": "src/components/ui/Split.tsx",
+      "from": "export function Split(",
+      "note": "Words rise out of their masks one after another: a few lines of code, and no animation library."
+    },
+    {
+      "id": "work",
+      "el": "#work",
+      "file": "src/lib/motion.ts",
+      "from": "function onProximityMove(",
+      "note": "The letters of a heading lift in a wave as the cursor passes."
+    },
+    {
+      "id": "building",
+      "el": "#building",
+      "file": "src/lib/motion.ts",
+      "from": "export function whenSeen(",
+      "note": "Each piece rises in the first time it comes into view, and never watches again."
+    },
+    {
+      "id": "experience",
+      "el": "#experience",
+      "file": "src/lib/ticker.ts",
+      "from": "const early = new Set<Tick>();",
+      "until": "export function useTicker(",
+      "note": "One animation loop for the whole page: the timeline, the toolkit line and every canvas take their turn in it."
+    },
+    {
+      "id": "motto",
+      "el": "#motto",
+      "file": "src/components/ui/LensReveal.tsx",
+      "from": "useTicker(() => {",
+      "note": "The circle you have just been moving around."
+    },
+    {
+      "id": "method",
+      "el": "#method",
+      "file": "src/lib/motion.ts",
+      "from": "function placeFill(",
+      "until": "/* ── Magnets",
+      "note": "The fill floods in from the exact point the cursor enters."
+    },
+    {
+      "id": "off",
+      "el": "#off-clock",
+      "file": "src/lib/clock.ts",
+      "from": "export function zoneOffsetMinutes(",
+      "until": "export function formatTime(",
+      "note": "Both clocks are worked out from the time zones themselves, daylight saving included."
+    },
+    {
+      "id": "brief",
+      "el": "#brief",
+      "file": "src/lib/store.ts",
+      "from": "export function createStore<T>(",
+      "note": "State shared across the page lives in stores this small. Your message never leaves this page: it opens in your own email app."
+    },
+    {
+      "id": "contact",
+      "el": "#contact",
+      "file": "src/morph/shaders.ts",
+      "from": "// Leaving the portrait, and writing the footer name",
+      "until": "// The first gathering",
+      "note": "The name is written by the same dots that drew the portrait: a mist that condenses into letters."
+    }
+  ],
+  "stages": {
+    "services": {
+      "id": "stage-services",
+      "file": "src/morph/drawings.ts",
+      "from": "// `count` dots, each somewhere on the paint",
+      "note": "What the dots draw: a small picture is painted, then sampled, so a dot lands more often where the paint is stronger."
+    },
+    "work": {
+      "id": "stage-work",
+      "file": "src/components/fx/DotStage.tsx",
+      "from": "// Everything takes off from where it is now",
+      "note": "Whatever the dots were on their way to, they take off from exactly where they are now."
+    },
+    "building": {
+      "id": "stage-building",
+      "file": "src/components/fx/DotStage.tsx",
+      "from": "if (act.pairs) {",
+      "note": "The section says which feature is open; the dots alternate between what goes in and what comes out."
+    }
+  }
 }

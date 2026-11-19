@@ -1,0 +1,63 @@
+/*
+ * What "Break it" does to the page itself, as opposed to the layer's own console and button
+ * (those are in BreakLayer.module.css). These rules address the whole document, so they are a
+ * plain stylesheet: a CSS Module may only style its own classes.
+ */
+
+/* While the page is in pieces, nothing clips them: they can fall out of their sections. */
+html.is-breaking,
+html.is-breaking body {
+  overflow-x: clip;
+  touch-action: none;
+  /* Dragging a piece, or missing one, must not select the text it passes over. */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html.is-breaking :is(main section, #contact, .split-mask, [data-lens], [data-lens-base]) {
+  overflow: visible !important;
+}
+
+html.is-breaking [data-lens-base] {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* The lens is a way of reading: while the words are on the floor it stays shut. */
+html.is-breaking [data-lens] {
+  pointer-events: none;
+}
+
+/* The shudder before it lets go. */
+html.is-shaking main {
+  animation: break-shake 0.42s linear;
+}
+
+html.is-shaking [data-fx="cloud"] {
+  filter: hue-rotate(140deg) saturate(3);
+}
+
+@keyframes break-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translate(-6px, 3px) skew(0.6deg);
+  }
+  40% {
+    transform: translate(7px, -4px) skew(-0.8deg);
+  }
+  60% {
+    transform: translate(-8px, -2px) skew(1deg);
+  }
+  80% {
+    transform: translate(5px, 4px) skew(-0.6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-shaking main {
+    animation: none;
+  }
+}

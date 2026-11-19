@@ -74,13 +74,15 @@ crop.height = maxY + 1 - crop.top;
 const OUT_HEIGHT = 1200;
 const outWidth = Math.round((crop.width / crop.height) * OUT_HEIGHT);
 
-const withAlpha = await sharp(source)
-  .removeAlpha()
+// Three separate steps on purpose. sharp runs its operations in its own fixed order, not the
+// order they are written in: in one pipeline, removeAlpha() would strip the matte again, and
+// the crop would be applied to the photo before the (uncropped) matte was joined to it.
+const rgb = await sharp(source).removeAlpha().raw().toBuffer();
+const joined = await sharp(rgb, { raw: { width, height, channels: 3 } })
   .joinChannel(matte, { raw: { width, height, channels: 1 } })
-  .extract(crop)
-  .resize(outWidth, OUT_HEIGHT)
   .png()
   .toBuffer();
+const withAlpha = await sharp(joined).extract(crop).resize(outWidth, OUT_HEIGHT).png().toBuffer();
 
 await sharp(withAlpha).webp({ quality: 86, alphaQuality: 92 }).toFile(path.join(outDir, "cutout.webp"));
 await sharp(withAlpha)
@@ -110,7 +112,12 @@ const avatar = {
   width: side,
   height: side,
 };
-await sharp(source).removeAlpha().extract(avatar).resize(512, 512).webp({ quality: 84 }).toFile(path.join(outDir, "avatar.webp"));
+await sharp(source)
+  .removeAlpha()
+  .extract(avatar)
+  .resize(512, 512)
+  .webp({ quality: 84 })
+  .toFile(path.join(outDir, "avatar.webp"));
 
 writeFileSync(
   path.join(outDir, "portrait.json"),

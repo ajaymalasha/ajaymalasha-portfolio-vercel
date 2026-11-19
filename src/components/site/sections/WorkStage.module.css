@@ -1,0 +1,172 @@
+/* Tall enough to give each storefront a stretch of scrolling, plus one screen to leave by. */
+.section {
+  position: relative;
+  height: calc(38vh * var(--count) + 100vh);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
+  padding: var(--space-l) var(--gutter);
+  pointer-events: none;
+}
+
+/* Where the dots draw the capture: it covers the screen whatever the screen's shape. */
+.slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 160vh);
+  aspect-ratio: 16 / 10;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+/* Ink rising from the bottom and falling from the top, so the copy reads over any capture. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--ink), color-mix(in srgb, var(--ink) 70%, transparent) 10%, transparent 30%),
+    linear-gradient(to top, var(--ink) 16%, color-mix(in srgb, var(--ink) 80%, transparent) 38%, transparent 66%);
+}
+
+.top,
+.foot {
+  position: relative;
+}
+
+.top :global([data-section-header]) {
+  margin-bottom: 0;
+  border-top: 0;
+}
+
+.foot {
+  align-items: end;
+}
+
+.foot a {
+  pointer-events: auto;
+}
+
+.names {
+  grid-column: 1 / 9;
+}
+
+/* Clear of the "skip" link in the corner below it. */
+.side {
+  grid-column: 9 / 13;
+  padding-bottom: 3.5rem;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-s);
+  font-size: var(--text-ui);
+  color: var(--on-ink-soft);
+}
+
+.count {
+  color: var(--sand);
+  font-variant-numeric: tabular-nums;
+}
+
+/* All the names share one cell; only the current one is up out of its mask. */
+.list {
+  display: grid;
+}
+
+.item {
+  grid-area: 1 / 1;
+  align-self: end;
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear 0.3s;
+}
+
+.item[data-active] {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.name {
+  display: block;
+  padding-bottom: 0.12em;
+  font-size: min(var(--step-7), 15vh);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-display);
+  color: var(--sand);
+  transform: translateY(110%);
+  transition: transform 0.3s ease-in;
+}
+
+.item[data-active] .name {
+  transform: none;
+  transition: transform 0.8s var(--ease-out) 0.15s;
+}
+
+.name:focus-visible {
+  outline-offset: -2px;
+}
+
+/* The details share a cell too: the old one fades out, then the new one fades in. */
+.details {
+  display: grid;
+  min-height: 7.5rem;
+  color: var(--sand);
+}
+
+.detail {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.26s ease,
+    visibility 0s linear 0.26s;
+}
+
+.detail[data-active] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.26s ease 0.26s,
+    visibility 0s linear 0.26s;
+}
+
+.meta {
+  font-size: var(--text-ui);
+  color: var(--on-ink-soft);
+}
+
+.brief {
+  margin-top: var(--space-xs);
+  font-size: var(--step-1);
+  line-height: var(--leading-body);
+}
+
+.also {
+  margin-top: var(--space-s);
+  font-size: var(--step--1);
+  line-height: var(--leading-small);
+  color: var(--on-ink-soft);
+}
+
+.small {
+  margin-top: var(--space-2xs);
+  font-size: var(--step--1);
+  line-height: var(--leading-small);
+  color: var(--on-ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .name,
+  .detail {
+    transition: none;
+  }
+}

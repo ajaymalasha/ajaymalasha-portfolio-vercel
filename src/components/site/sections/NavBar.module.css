@@ -1,0 +1,251 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  height: 5rem;
+  padding: 0 var(--gutter);
+  font-size: var(--text-ui);
+}
+
+/* Each piece drops in once the page is ready, in the order given by --d. They only wait where
+   scripts run (the boot script sets data-entry): without them, nothing would say "ready". */
+:global(html[data-entry]:not(.is-loaded)) .anim {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+
+:global(html.is-loaded) .anim {
+  animation: drop-in 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--d, 0) * 70ms + 0.25s);
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Name ────────────────────────────────────────────────────────────────────────────────── */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 8rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  color: var(--fg);
+}
+
+.roll {
+  display: inline-block;
+  height: 1.25em;
+  overflow: hidden;
+}
+
+.rollTrack {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.55s var(--ease-out);
+  transition-delay: calc(var(--i) * 22ms);
+}
+
+.logo:hover .rollTrack,
+.logo:focus-visible .rollTrack {
+  transform: translateY(-50%);
+}
+
+.logoDots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22em;
+  margin-left: 0.4em;
+}
+
+.logoDots i {
+  width: 0.36em;
+  height: 0.36em;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+:global(html.is-loaded) .logoDots i {
+  animation: dot-in 0.7s var(--ease-spring) calc(0.9s + var(--n) * 0.14s) backwards;
+}
+
+:global(html.is-loaded) .logo:hover .logoDots i,
+:global(html.is-loaded) .logo:focus-visible .logoDots i {
+  animation: dot-hop 0.62s var(--ease-out) calc(var(--n) * 0.11s);
+}
+
+@keyframes dot-in {
+  from {
+    transform: translateY(-1em);
+    opacity: 0;
+  }
+}
+
+@keyframes dot-hop {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-0.6em) scale(1.15);
+  }
+  70% {
+    transform: translateY(0.05em) scaleY(0.85);
+  }
+}
+
+/* ── Role, availability, links ───────────────────────────────────────────────────────────── */
+
+.role {
+  display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-muted);
+}
+
+.avail {
+  display: none;
+  align-items: center;
+  gap: var(--space-2xs);
+  white-space: nowrap;
+}
+
+.availDot {
+  flex-shrink: 0;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--live);
+  animation: live-pulse 2.2s ease-out infinite;
+}
+
+@keyframes live-pulse {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 60%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+.links {
+  display: none;
+  gap: 2.5rem;
+  margin-left: auto;
+  color: var(--fg);
+}
+
+.link {
+  --t-link-rest: var(--fg);
+}
+
+/* ── Menu button ─────────────────────────────────────────────────────────────────────────── */
+
+.menu {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-left: auto;
+  padding: var(--space-2xs) var(--space-s);
+  border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--text-ui);
+}
+
+.menuDots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.menuDots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── Wider screens ───────────────────────────────────────────────────────────────────────── */
+
+@media (min-width: 648px) {
+  .links {
+    display: flex;
+  }
+
+  .menu {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .logo {
+    grid-column: 1 / 3;
+  }
+
+  .avail {
+    display: inline-flex;
+    grid-column: 3 / 7;
+  }
+
+  .links {
+    grid-column: 9 / 11;
+    gap: 1.5rem;
+    margin-left: 0;
+    white-space: nowrap;
+  }
+
+  .menu {
+    grid-column: 11 / 13;
+    justify-self: end;
+  }
+}
+
+@media (min-width: 1200px) {
+  .links {
+    gap: 2.5rem;
+  }
+}
+
+/* The role line needs four whole columns to be read in full: it joins once they are wide enough. */
+@media (min-width: 1360px) {
+  .role {
+    display: block;
+    grid-column: 3 / 7;
+  }
+
+  .avail {
+    grid-column: 7 / 9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.is-loaded) .anim,
+  :global(html.is-loaded) .logoDots i,
+  :global(html.is-loaded) .logo:hover .logoDots i,
+  .availDot {
+    animation: none;
+  }
+
+  .rollTrack {
+    transition: none;
+  }
+}

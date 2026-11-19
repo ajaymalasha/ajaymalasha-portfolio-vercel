@@ -1,0 +1,134 @@
+.motto {
+  padding: calc(var(--section-y) * 1.2) var(--gutter);
+  overflow: hidden;
+  text-align: center;
+}
+
+.label {
+  margin-bottom: var(--space-xl);
+}
+
+.text {
+  font-size: var(--display);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.label,
+.hint {
+  transition:
+    opacity 0.3s ease,
+    transform 0.9s var(--ease-out);
+}
+
+.motto[data-reading] :is(.label, .hint) {
+  opacity: 0;
+}
+
+.hint {
+  margin-top: var(--space-xl);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+}
+
+/* The other half in plain print, for screens with no cursor to hold the lens. */
+.honest {
+  margin-top: var(--space-l);
+  font-size: var(--step-2);
+  line-height: var(--leading-title);
+  color: var(--fg-muted);
+}
+
+/* With a cursor the lens does this job on screen; the line stays for screen readers, which
+   are not given the copy inside the lens. */
+@media (hover: hover) {
+  .honest {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+@media (hover: none) {
+  .hint {
+    display: none;
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-l);
+  padding: var(--space-2xs) var(--space-s);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: var(--text-ui);
+  color: var(--fg);
+  transition:
+    background 0.3s ease,
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+
+.pill:hover {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.pill:focus-visible {
+  border-radius: 100px;
+}
+
+.glyph {
+  font-family: var(--font-mono);
+  color: var(--accent-text);
+}
+
+.break {
+  transform-origin: center bottom;
+}
+
+.break[data-nudging]:not(:hover) {
+  animation: nudge 3s ease-in-out 0.6s infinite;
+}
+
+/* Still for most of the cycle, then a short shiver. */
+@keyframes nudge {
+  0%,
+  74%,
+  100% {
+    transform: none;
+  }
+  77% {
+    transform: translateX(-3px) rotate(-3deg);
+  }
+  80% {
+    transform: translateX(3px) rotate(3deg);
+  }
+  83% {
+    transform: translateX(-4px) rotate(-4deg);
+  }
+  86% {
+    transform: translateX(4px) rotate(4deg);
+  }
+  89% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  92% {
+    transform: translateX(2px) rotate(2deg);
+  }
+  96% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .break[data-nudging]:not(:hover) {
+    animation: none;
+  }
+}

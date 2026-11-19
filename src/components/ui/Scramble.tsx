@@ -35,9 +35,7 @@ export function Scramble({ text, when = "reveal", delay = 0, className }: Props)
     } else {
       node.style.opacity = "0";
       stop =
-        when === "load"
-          ? whenLoaded(() => (timer = setTimeout(run, delay)))
-          : whenSeen(node, run, { threshold: 0.4 });
+        when === "load" ? whenLoaded(() => (timer = setTimeout(run, delay))) : whenSeen(node, run, { threshold: 0.4 });
     }
     return () => {
       stop();

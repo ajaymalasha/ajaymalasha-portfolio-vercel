@@ -56,6 +56,12 @@ export const viewport: Viewport = {
  */
 const bootScript = `(function(){var d=document.documentElement,p=(location.search.match(/[?&]v=(site|story)\\b/)||[])[1];try{var s=sessionStorage.getItem('version'),c=JSON.parse(localStorage.getItem('version-choice')||'null');if(!p)p=s==='site'||s==='story'?s:c&&Date.now()-c.at<2592e6&&(c.id==='site'||c.id==='story')?c.id:''}catch(e){}d.setAttribute('data-entry',${STORY_ENABLED ? "p||'gate'" : "'site'"})})()`;
 
+/**
+ * Without scripts nothing would ever arrive: pieces that wait to rise into view are simply
+ * shown, and the photograph stands in for the portrait the dots would have drawn.
+ */
+const noScriptStyles = `[data-reveal]{opacity:1!important;transform:none!important}.split-word{transform:none!important}[data-fx="portrait"]{background:url("/portrait/cutout.webp") center/contain no-repeat}[data-fx="marquee"]{opacity:1!important}`;
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -77,6 +83,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: noScriptStyles }} />
+        </noscript>
       </head>
       <body>{children}</body>
     </html>

@@ -1,0 +1,167 @@
+.about {
+  position: relative;
+  z-index: 1;
+  padding: var(--section-y) var(--gutter);
+  overflow: hidden;
+}
+
+/* ── The statement and the line behind it ────────────────────────────────────────────────── */
+
+.body {
+  position: relative;
+}
+
+.text {
+  font-weight: var(--weight-regular);
+  font-size: var(--step-4);
+  line-height: var(--leading-statement);
+  letter-spacing: var(--tracking-statement);
+}
+
+/* Faint until the script darkens each word with the scroll. */
+.visible span {
+  color: color-mix(in srgb, var(--fg) 45%, transparent);
+}
+
+/* The second line: ink on sand turned over, cut to a circle around the cursor. It reaches well
+   past the statement so the circle is not clipped at the statement's edge. */
+.hidden {
+  position: absolute;
+  inset: -300px;
+  padding: 300px;
+  color: var(--sand);
+  background: var(--ink);
+  clip-path: circle(0px at 0px 0px);
+  will-change: clip-path;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease-out 0.18s;
+}
+
+.revealed {
+  opacity: 1;
+  transition: opacity 0.5s ease-out 0.12s;
+}
+
+/* With the particle cloud running, its dots pack into the circle and are the fill: the layer
+   goes see-through and the statement is cut away inside the circle. */
+@media (hover: hover) {
+  :global(html.has-particles) .hidden {
+    background: transparent;
+  }
+
+  :global(html.has-particles) .visible {
+    -webkit-mask-image: radial-gradient(
+      circle at var(--lens-x, 0) var(--lens-y, 0),
+      transparent var(--lens-r, 0px),
+      #000 calc(var(--lens-r, 0px) + 1px)
+    );
+    mask-image: radial-gradient(
+      circle at var(--lens-x, 0) var(--lens-y, 0),
+      transparent var(--lens-r, 0px),
+      #000 calc(var(--lens-r, 0px) + 1px)
+    );
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    align-items: center;
+  }
+
+  .body {
+    grid-column: 1 / 10;
+  }
+
+  /* The particle medal is drawn here; the ring of text shares the cell and goes round it. */
+  .slot {
+    grid-column: 10 / 13;
+    grid-row: 1;
+    justify-self: center;
+    width: 70%;
+    aspect-ratio: 1;
+  }
+}
+
+/* ── Figures ─────────────────────────────────────────────────────────────────────────────── */
+
+.statsWrap {
+  position: relative;
+  margin-top: var(--space-3xl);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-l) var(--space-m);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--line);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.figure {
+  font-size: var(--step-6);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  white-space: nowrap;
+}
+
+.unit {
+  font-size: 0.32em;
+  letter-spacing: 0;
+}
+
+.label {
+  max-width: 16em;
+  font-size: var(--step-0);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+/* Once the dots are drawing the numerals, the type underneath only keeps their place, and the
+   words beside them come and go with the dots (--k: 0 away, 1 in place; --away: which way). */
+.stats[data-dots="on"] .num {
+  color: transparent;
+}
+
+.stats[data-dots="on"] :is(.unit, .label) {
+  opacity: var(--k, 1);
+  transform: translateY(calc((1 - var(--k, 1)) * var(--away, 1) * 1.1rem));
+}
+
+.stats[data-dots="on"] .unit {
+  display: inline-block;
+  /* An inline-block drops its leading space: put the gap back. */
+  margin-left: 0.25em;
+}
+
+@media (min-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+  }
+
+  .stat {
+    position: relative;
+    grid-column: span 3;
+  }
+
+  .stat + .stat::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--grid-gap) / -2);
+    width: 1px;
+    background: var(--line);
+  }
+
+  .figure {
+    font-size: min(var(--step-6), 13vh, 6.2vw);
+  }
+}

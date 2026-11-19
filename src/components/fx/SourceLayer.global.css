@@ -1,0 +1,11 @@
+/*
+ * What "Show the code" does to the page itself: the layer's own grid, marks and panel are in
+ * SourceLayer.module.css. This rule addresses the whole document, so it is a plain stylesheet:
+ * a CSS Module may only style its own classes.
+ */
+
+/* While the layer is on, the page's own building blocks are outlined. */
+html.is-source main :is(h2, h3, a, button, img, iframe, ol, ul) {
+  outline: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}

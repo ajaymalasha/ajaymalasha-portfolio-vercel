@@ -8,7 +8,9 @@ import { stagesOn } from "@/lib/stage";
 import { useStore } from "@/lib/store";
 import { now, ticker } from "@/lib/ticker";
 
-const ParticleMorph = dynamic(() => import("@/components/fx/ParticleMorph").then((m) => m.ParticleMorph), { ssr: false });
+const ParticleMorph = dynamic(() => import("@/components/fx/ParticleMorph").then((m) => m.ParticleMorph), {
+  ssr: false,
+});
 const DotStage = dynamic(() => import("@/components/fx/DotStage").then((m) => m.DotStage), { ssr: false });
 const BreakLayer = dynamic(() => import("@/components/fx/BreakLayer").then((m) => m.BreakLayer), { ssr: false });
 const SourceLayer = dynamic(() => import("@/components/fx/SourceLayer").then((m) => m.SourceLayer), { ssr: false });
@@ -99,7 +101,8 @@ export function SiteFx() {
   if (!active) return null;
   return (
     <>
-      {gl ? <ParticleMorph /> : null}
+      {/* Keyed by mode: with the stages on, the cloud leaves out the shapes of the staged sections. */}
+      {gl ? <ParticleMorph key={stages ? "staged" : "plain"} /> : null}
       {gl && stages ? <DotStage /> : null}
       {broken ? <BreakLayer /> : null}
       {source ? <SourceLayer /> : null}

@@ -1,0 +1,84 @@
+/* Tall enough to give every step its share of scrolling, plus the one screen that is pinned. */
+.section {
+  position: relative;
+  height: calc(30vh * var(--count) + 100vh);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 5rem var(--gutter) 6rem;
+}
+
+/* A size container, so the drawing can be sized from the height left over above the steps. */
+.top {
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+  container-type: size;
+}
+
+.title {
+  grid-area: 1 / 8 / 2 / 13;
+  /* Capped by the width too, so the first line of the heading stays on one line in its columns. */
+  font-size: min(var(--step-4), 3.1vw);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+/* This heading is set in one colour. */
+.title :global(.accent) {
+  color: inherit;
+}
+
+.slot {
+  position: relative;
+  grid-area: 1 / 1 / 2 / 8;
+  justify-self: start;
+  width: min(100%, 160cqh);
+  aspect-ratio: 16 / 10;
+}
+
+.steps {
+  margin-top: var(--space-m);
+}
+
+.step {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-top: var(--space-xs);
+  border-top: 2px solid var(--line);
+  color: var(--fg-muted);
+  transition:
+    color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.isPast {
+  border-color: var(--fg-muted);
+}
+
+.isActive {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.num {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.name {
+  font-size: min(var(--step-2), 1.9vw);
+  letter-spacing: var(--tracking-title);
+}
+
+.desc {
+  font-size: var(--step-0);
+  line-height: var(--leading-small);
+}

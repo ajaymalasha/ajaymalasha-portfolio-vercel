@@ -28,13 +28,9 @@ mkdirSync(outDir, { recursive: true });
 
 let missing = 0;
 for (const slug of slugs) {
-  const candidates = [
-    `${slug}.png`,
-    `${slug}.jpg`,
-    `${slug}.webp`,
-    `${slug}/card-960.webp`,
-    `${slug}-desktop.png`,
-  ].map((name) => path.join(folder, name));
+  const candidates = [`${slug}.png`, `${slug}.jpg`, `${slug}.webp`, `${slug}/card-960.webp`, `${slug}-desktop.png`].map(
+    (name) => path.join(folder, name),
+  );
   const input = candidates.find((file) => existsSync(file));
   if (!input) {
     console.warn(`missing  ${slug}`);

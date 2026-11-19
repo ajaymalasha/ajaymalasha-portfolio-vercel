@@ -1,0 +1,241 @@
+.services {
+  padding: var(--section-y) 0;
+  overflow: hidden;
+}
+
+.head {
+  padding: 0 var(--gutter);
+  margin-bottom: var(--space-2xl);
+}
+
+.intro {
+  margin-left: var(--index-col);
+  max-width: 40rem;
+  font-size: var(--step-3);
+  line-height: var(--leading-statement);
+  letter-spacing: var(--tracking-statement);
+}
+
+@media (min-width: 1024px) {
+  .lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 22vw);
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .slot {
+    height: 15rem;
+  }
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────────────────────────── */
+
+/* The cards carry their own side padding, so the grid is pulled out by that much to keep the
+   text on the page's gutter. */
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 calc(var(--gutter) - var(--space-s));
+}
+
+.service {
+  position: relative;
+}
+
+.service::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--space-s);
+  right: var(--space-s);
+  height: 1px;
+  background: var(--line);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  height: 100%;
+  padding: var(--space-s) var(--space-s) var(--space-l);
+}
+
+.index {
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+}
+
+.title {
+  font-size: var(--step-4);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  padding-bottom: 0.1em;
+}
+
+.desc {
+  font-size: var(--text-ui);
+  line-height: var(--leading-small);
+}
+
+.descBase {
+  color: var(--fg-muted);
+}
+
+/* Opens from the card's middle line outwards. */
+.mask {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  clip-path: inset(50% 0 50% 0);
+  transition: clip-path 0.45s var(--ease-out);
+  pointer-events: none;
+}
+
+.mask .index {
+  color: color-mix(in srgb, var(--on-accent) 70%, transparent);
+}
+
+/* Room for descenders inside the clip, without moving the line below. */
+.mask .title {
+  overflow: hidden;
+  padding-bottom: 0.4em;
+  margin-bottom: -0.3em;
+}
+
+.roll {
+  display: inline-block;
+  transform: translateY(35%);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.mask .desc {
+  opacity: 0;
+  transform: translate(16px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.5s var(--ease-out);
+}
+
+.service:hover .mask {
+  clip-path: inset(0 0 0 0);
+  transition-duration: 0.65s;
+}
+
+.service:hover .roll {
+  transform: none;
+}
+
+.service:hover .mask .desc {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.12s;
+}
+
+@media (hover: none) {
+  .mask {
+    display: none;
+  }
+}
+
+/* ── Process ─────────────────────────────────────────────────────────────────────────────── */
+
+.how {
+  margin-top: var(--space-3xl);
+  padding: 0 var(--gutter);
+}
+
+.howTitle {
+  max-width: 18em;
+  font-size: var(--step-5);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+/* This heading is set in one colour. */
+.howTitle :global(.accent) {
+  color: inherit;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-m);
+  margin-top: var(--space-xl);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--line);
+}
+
+.stepIndex {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.stepName {
+  font-size: var(--step-2);
+  letter-spacing: var(--tracking-title);
+}
+
+.stepDesc {
+  font-size: var(--text-ui);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+@media (max-width: 1199px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1023px) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-s);
+  }
+
+  .intro {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 647px) {
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .row {
+    padding-bottom: var(--space-m);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-3xs) 0;
+  }
+
+  .stepDesc {
+    grid-column: 2;
+  }
+
+  .steps {
+    gap: var(--space-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask,
+  .roll,
+  .mask .desc {
+    transition: none;
+  }
+}

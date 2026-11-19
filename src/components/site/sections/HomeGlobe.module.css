@@ -1,0 +1,37 @@
+.globe {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  color: var(--fg);
+}
+
+.canvas {
+  flex-shrink: 0;
+  touch-action: none;
+  cursor: grab;
+  /* Springs back to its place when the cursor leaves (the script moves it with `translate`). */
+  transition: translate 0.6s var(--ease-spring);
+}
+
+.dragging {
+  cursor: grabbing;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-ui);
+}
+
+.time {
+  margin-left: var(--space-3xs);
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gap {
+  /* Filled in after mount: holds its line so the block does not jump. */
+  min-height: 1.5em;
+  color: var(--fg-muted);
+}

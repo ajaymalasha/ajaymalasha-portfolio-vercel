@@ -17,6 +17,7 @@
     "assets:portrait": "node scripts/make-portrait.mjs",
     "assets:work": "node scripts/make-work-images.mjs",
     "assets:snippets": "node scripts/make-snippets.mjs",
+    "assets:og": "node scripts/make-og.mjs",
     "predev": "node scripts/make-snippets.mjs",
     "prebuild": "node scripts/make-snippets.mjs"
   },

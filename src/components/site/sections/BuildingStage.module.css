@@ -1,0 +1,287 @@
+/* Panel widths are whole columns of the page's grid: two shut, eight open (2 + 2 + 8 = 12). */
+.section {
+  --shut-width: calc(var(--grid-col) * 2 + var(--grid-gap));
+  --open-width: calc(var(--grid-col) * 8 + var(--grid-gap) * 7);
+  --inset: var(--space-m);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: clamp(2rem, 7vh, 5rem) var(--gutter) var(--space-l);
+}
+
+.head :global([data-section-header]) {
+  margin-bottom: clamp(var(--space-xs), 3vh, var(--space-l));
+}
+
+.title {
+  font-size: min(var(--step-5), 9vh);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.title :global(.accent) {
+  color: inherit;
+}
+
+/* ── The columns ─────────────────────────────────────────────────────────────────────────── */
+
+.panels {
+  flex: 1;
+  display: flex;
+  gap: var(--grid-gap);
+  min-height: 22rem;
+  margin-top: clamp(1.25rem, 4vh, 2.5rem);
+}
+
+.panel {
+  position: relative;
+  flex: 0 0 var(--shut-width);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  transition:
+    flex-basis 1s var(--ease-out),
+    background 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.panel[data-open="true"] {
+  flex-basis: var(--open-width);
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* ── Shut ────────────────────────────────────────────────────────────────────────────────── */
+
+.shut {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-s);
+  border-radius: inherit;
+  color: var(--fg);
+  text-align: left;
+  transition:
+    opacity 0.3s ease 0.35s,
+    background 0.3s ease;
+}
+
+.shut:hover {
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+}
+
+.shut:focus-visible {
+  outline-offset: -4px;
+}
+
+.panel[data-open="true"] .shut {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.num {
+  font-size: var(--step--1);
+}
+
+/* The name on end, reading upwards. */
+.spine {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: min(var(--step-5), 7.5vh);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  white-space: nowrap;
+}
+
+/* Everything here is in production, so every dot is the "live" one. */
+.dot,
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--live);
+  --pulse-color: var(--live);
+  --pulse-size: 10px;
+  animation: pulse-ring 2.2s ease-out infinite;
+}
+
+.dot {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-s);
+}
+
+/* ── Open ────────────────────────────────────────────────────────────────────────────────── */
+
+.open {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--open-width);
+  padding: var(--inset);
+  color: var(--on-accent);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s;
+}
+
+.panel[data-open="true"] .open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease 0.3s;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-s);
+}
+
+.name {
+  font-size: min(var(--step-6), 11vh);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  transform: translateY(16px);
+  transition: transform 0.8s var(--ease-out) 0.2s;
+}
+
+.panel[data-open="true"] .name {
+  transform: none;
+}
+
+/* The drawing starts on a column of the page's grid, three in from the panel's edge (four on
+   narrower laptops, where three columns are too few for the copy). As a size container, the
+   body lets the drawing and the pitch fit themselves to the height that is left. */
+.body {
+  --copy-cols: 3;
+  flex: 1;
+  display: grid;
+  grid-template-columns:
+    calc(var(--grid-col) * var(--copy-cols) + var(--grid-gap) * (var(--copy-cols) - 1) - var(--inset))
+    minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: end;
+  column-gap: var(--grid-gap);
+  min-height: 0;
+  margin-top: var(--space-s);
+  container-type: size;
+}
+
+@media (max-width: 1279px) {
+  .body {
+    --copy-cols: 4;
+  }
+}
+
+/* Sized from the room under the name, so the copy never climbs into it on a short screen. */
+.pitch {
+  font-size: clamp(0.875rem, 5.5cqh, var(--step-1));
+  line-height: 1.5;
+}
+
+/* Ink outlines rather than filled chips: on the accent, anything filled fights the drawing. */
+.parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+  margin-top: var(--space-s);
+  font-size: var(--step--1);
+}
+
+.parts li {
+  padding: 0.2em 0.7em;
+  border: 1px solid color-mix(in srgb, var(--on-accent) 45%, transparent);
+  border-radius: 100px;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-s);
+  margin-top: var(--space-s);
+  font-size: var(--text-ui);
+}
+
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* Green on orange needs an ink ring to read as a light. */
+.live {
+  flex: none;
+  outline: 2px solid var(--on-accent);
+}
+
+.visit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--sand);
+}
+
+.visit:focus-visible {
+  outline-color: var(--on-accent);
+}
+
+.arrow {
+  width: 14px;
+  height: 14px;
+}
+
+/* Where the dots work: nothing else goes here. */
+.slot {
+  justify-self: start;
+  width: min(100%, calc(100cqh * 1.6));
+  aspect-ratio: 16 / 10;
+}
+
+/* ── The lines under the columns ─────────────────────────────────────────────────────────── */
+
+/* Two columns on the page's grid (five columns each), with the small print under both. The last
+   two columns stay empty: the menu button floats in the bottom right corner. */
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xs) var(--grid-gap);
+  max-width: calc(var(--grid-col) * 10 + var(--grid-gap) * 9);
+  margin-top: var(--space-m);
+  font-size: var(--step--1);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+.small {
+  grid-column: 1 / -1;
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .name {
+    transition: none;
+  }
+
+  .dot,
+  .live {
+    animation: none;
+  }
+}

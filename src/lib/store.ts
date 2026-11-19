@@ -33,5 +33,7 @@ export function createStore<T>(initial: T): Store<T> {
 
 /** `serverValue` is what the server renders (and the first client render, so they match). */
 export function useStore<T>(store: Store<T>, serverValue?: T): T {
-  return useSyncExternalStore(store.subscribe, store.get, () => (serverValue === undefined ? store.get() : serverValue));
+  return useSyncExternalStore(store.subscribe, store.get, () =>
+    serverValue === undefined ? store.get() : serverValue,
+  );
 }

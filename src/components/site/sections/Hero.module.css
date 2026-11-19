@@ -1,0 +1,279 @@
+/* Phones first: the portrait above, the copy below, the name line along the very bottom. */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template:
+    "location" auto
+    "portrait" 1fr
+    "text" auto / 1fr;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  padding-bottom: calc(16vw + 3rem);
+  overflow: hidden;
+}
+
+.location,
+.right {
+  z-index: 3;
+}
+
+.location {
+  grid-area: location;
+  display: none;
+  margin-bottom: 2rem;
+  padding: 0 var(--gutter);
+}
+
+/* Waits for the page to be ready, where there are scripts to say so (see NavBar). */
+:global(html[data-entry]:not(.is-loaded)) .location {
+  opacity: 0;
+}
+
+:global(html.is-loaded) .location {
+  animation: slide-in 1.2s var(--ease-out) 0.45s backwards;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translate(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The box the dotted portrait is fitted into. --portrait-x/y say which edge it hugs (0 to 1). */
+.portrait {
+  grid-area: portrait;
+  min-width: 0;
+  min-height: 0;
+  margin-bottom: var(--space-l);
+}
+
+/* Without the particle cloud, the photo itself. */
+:global(html.no-webgl) .portrait {
+  background: url("/portrait/cutout.webp") center / contain no-repeat;
+}
+
+.right {
+  grid-area: text;
+  padding: 0 var(--gutter);
+  color: var(--fg);
+}
+
+.arrow {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 36px;
+}
+
+.title {
+  font-size: var(--step-4);
+  line-height: var(--leading-statement);
+  letter-spacing: var(--tracking-statement);
+}
+
+.lead {
+  max-width: 22rem;
+  margin-top: var(--space-s);
+  font-size: var(--text-ui);
+  line-height: var(--leading-small);
+  color: var(--fg-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-m);
+  margin-top: var(--space-s);
+  font-size: var(--text-ui);
+}
+
+.cta {
+  padding: var(--space-2xs) var(--space-s);
+  border-radius: 100px;
+}
+
+/* ── The name line ───────────────────────────────────────────────────────────────────────── */
+
+.marqueeBand {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Hidden while the particle cloud is in charge: the cloud writes the names itself, over this
+   line's place. Shown as dotted text only where there is no cloud. */
+.marquee {
+  display: flex;
+  font-size: 12vw;
+  white-space: nowrap;
+  will-change: transform;
+  opacity: 0;
+}
+
+:global(html.no-webgl) .marquee {
+  opacity: 1;
+}
+
+.run {
+  display: flex;
+}
+
+.name {
+  margin-right: var(--space-s);
+}
+
+/* ── Layouts ─────────────────────────────────────────────────────────────────────────────── */
+
+@media (min-width: 648px) and (min-height: 900px) {
+  .location {
+    display: flex;
+  }
+}
+
+@media (max-width: 723px) {
+  .hero {
+    height: calc(100svh - 5rem);
+    min-height: 30rem;
+    padding-bottom: 5rem;
+  }
+
+  .arrow {
+    display: none;
+  }
+}
+
+/* Tablets: the portrait takes the right-hand side and hugs the bottom-right corner. */
+@media (min-width: 724px) and (max-width: 1023px) {
+  .hero {
+    column-gap: var(--space-l);
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .portrait {
+    --portrait-x: 1;
+    --portrait-y: 1;
+    margin: 0;
+  }
+
+  :global(html.no-webgl) .portrait {
+    background-position: right bottom;
+  }
+
+  .location {
+    display: flex;
+    padding: 0;
+  }
+
+  .right {
+    padding: 0;
+  }
+
+  .lead {
+    max-width: 18rem;
+  }
+}
+
+@media (min-width: 724px) and (max-width: 1023px) and (orientation: portrait) {
+  .hero {
+    grid-template:
+      "location portrait" auto
+      ".        portrait" 1fr
+      "text     portrait" auto / auto minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 724px) and (max-width: 1023px) and (max-aspect-ratio: 4 / 5) {
+  .hero {
+    grid-template:
+      "location portrait" auto
+      ".        portrait" 1fr
+      "text     text" auto / auto minmax(0, 1fr);
+  }
+
+  .portrait {
+    margin-bottom: var(--space-l);
+  }
+
+  .lead {
+    max-width: 22rem;
+  }
+}
+
+@media (min-width: 724px) and (max-width: 1023px) and (orientation: landscape) {
+  .hero {
+    grid-template:
+      ".        portrait" 1fr
+      "location portrait" auto
+      "text     portrait" auto
+      ".        portrait" 1fr / auto minmax(0, 1fr);
+    column-gap: var(--space-xl);
+    padding-bottom: 4.5rem;
+  }
+
+  .location {
+    margin-bottom: var(--space-l);
+  }
+}
+
+/* Laptops and up: three columns on the page grid, everything centred on one row. */
+@media (min-width: 1024px) {
+  .hero {
+    grid-template: 1fr / repeat(12, minmax(0, 1fr));
+    align-items: center;
+    column-gap: var(--grid-gap);
+    padding: 0 var(--gutter);
+  }
+
+  .location {
+    grid-area: 1 / 1 / 2 / 4;
+    display: flex;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .portrait {
+    grid-area: 1 / 4 / 2 / 9;
+    align-self: stretch;
+    margin: 0;
+  }
+
+  .right {
+    grid-area: 1 / 9 / 2 / 13;
+    padding: 0;
+  }
+
+  /* Each line of the headline stays on one line: where four columns are too narrow for the
+     longer one at full size, the type shrinks to fit. --title-chars is that line's length;
+     0.41em is the average advance of a character in Geist Light. */
+  .title {
+    font-size: min(var(--step-4), calc((var(--grid-col) * 4 + var(--grid-gap) * 3) / (var(--title-chars) * 0.41)));
+  }
+
+  .arrow {
+    margin-bottom: 5rem;
+  }
+}
+
+/* On wide screens the cloud's name line passes behind the copy, so this band goes under the
+   particle canvas with it. */
+@media (min-width: 1024px), (min-width: 724px) and (orientation: landscape) {
+  :global(html.has-particles) .marqueeBand {
+    z-index: -3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.is-loaded) .location {
+    animation: none;
+  }
+}
